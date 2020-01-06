@@ -9,11 +9,18 @@ namespace Singleton
         }
 
         private static SingletonObject uniqueObject;
+        private static Object lockObj = new Object();
 
         public static SingletonObject GetInstance()
         {
             if (uniqueObject == null)
-                uniqueObject = new SingletonObject();
+            {
+                lock (lockObj)
+                {
+                    if (uniqueObject == null)
+                        uniqueObject = new SingletonObject();
+                }
+            }
 
             return uniqueObject;
         }
